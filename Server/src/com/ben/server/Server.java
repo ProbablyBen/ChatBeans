@@ -29,8 +29,8 @@ public class Server {
      */
     public Server(int port) {
         try {
-            // Create new socket and binding to the local address and port
-            _socket = new ServerSocket(port, 5, InetAddress.getLocalHost());
+            // Create new socket and binding to the local interface and port
+            _socket = new ServerSocket(port, 5);
         } catch (IOException e) {
             Logger.getInstance().writeError("Failed to initialize a new ServerSocket");
             Logger.getInstance().writeError(Arrays.toString(e.getStackTrace()));
