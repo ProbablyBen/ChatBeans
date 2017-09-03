@@ -41,7 +41,6 @@ public class PacketHandler {
         } else {
             Logger.getInstance().writeWarning("Non implemented packet: " + packet.getClass());
         }
-
     }
 
     /**
@@ -94,9 +93,31 @@ public class PacketHandler {
         String messageFormatted = String.format("%s <%s>: %s", host, client.getInfo().getUsername(), packet.getMessage());
         Logger.getInstance().writeInfo(messageFormatted);
 
-        ServerMessage serverMessage = new ServerMessage(client.getInfo().getUsername(), packet.getMessage());
-        server.broadcastPacket(serverMessage);
+        // Commands start with /
+        if(packet.getMessage().startsWith("/")) {
+            handleCommand(client, packet.getMessage());
+        } else {
+            ServerMessage serverMessage = new ServerMessage(client.getInfo().getUsername(), packet.getMessage());
+            server.broadcastPacket(serverMessage);
+        }
     }
 
+    /**
+     * Handles a command
+     * @param client The client
+     * @param command The command
+     */
+    private static void handleCommand(Client client, String command) {
 
+        if(command.equalsIgnoreCase("/help")) {
+            new ServerMessage("Server", "\n" +
+                    "Commands:\n" +
+                    "1) /help - Displays help\n" +
+                    "2) /ping - Pings server").send(client);
+        } else if(command.equalsIgnoreCase("/ping")) {
+            new ServerMessage("Server", "Pong!").send(client);
+        } else {
+            new ServerMessage("Server","Unknown command. Type \"/help\" for help.").send(client);
+        }
+    }
 }
