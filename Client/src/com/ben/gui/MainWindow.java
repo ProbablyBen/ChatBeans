@@ -16,9 +16,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -201,8 +203,9 @@ public class MainWindow extends Application {
         TrayNotification tray = new TrayNotification();
         tray.setTitle(msg.getUsername());
         tray.setMessage(msg.getMessage());
+        tray.setNotificationType(NotificationType.MESSAGE);
         tray.setAnimationType(AnimationType.POPUP);
-        tray.setNotificationType(NotificationType.CUSTOM);
+
         tray.showAndDismiss(new Duration(100));
 
     }

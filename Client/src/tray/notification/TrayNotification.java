@@ -138,7 +138,10 @@ public final class TrayNotification {
                 imageLocation = getClass().getResource("/tray/resources/error.png");
                 paintHex = "#CC0033";
                 break;
-
+            case MESSAGE:
+                imageLocation = getClass().getResource("/tray/resources/message.png");
+                paintHex = "#0078ff";
+                break;
             case CUSTOM:
                 return;
         }
