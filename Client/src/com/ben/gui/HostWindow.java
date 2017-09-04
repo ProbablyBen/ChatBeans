@@ -144,7 +144,7 @@ public class HostWindow extends Application {
      * @return True if valid input, otherwise false
      */
     private boolean isValidInput() {
-        return isIPAddress(_txtHost.getText()) && isNumeric(_txtPort.getText());
+        return isNumeric(_txtPort.getText());
     }
 
     /**
