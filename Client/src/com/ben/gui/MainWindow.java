@@ -10,12 +10,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
 import java.util.Optional;
 
@@ -71,7 +80,7 @@ public class MainWindow extends Application {
         root.setCenter(addListView());
         root.setBottom(addHBox());
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 610, 410);
         _primaryStage.setScene(scene);
         _primaryStage.show();
         if (_manager.getClient().getInfo().isConnected()) {
@@ -102,6 +111,7 @@ public class MainWindow extends Application {
         hbox.setStyle("-fx-background-color: #2a4b99;");
 
         _txtMessage.setMinSize(500, 20);
+        hbox.setHgrow(_txtMessage, Priority.ALWAYS);
 
         _btnSubmit.setText("Submit");
         _btnSubmit.setOnAction(this::handleBtnSubmit);
@@ -109,6 +119,8 @@ public class MainWindow extends Application {
         // Enable enter key on btnSubmit
         _btnSubmit.setDefaultButton(true);
         _btnSubmit.setPrefSize(100, 20);
+
+        hbox.setAlignment(Pos.CENTER_RIGHT);
 
         hbox.getChildren().addAll(_txtMessage, _btnSubmit);
 
@@ -176,6 +188,22 @@ public class MainWindow extends Application {
      */
     public void addMessage(ServerMessage msg) {
         String message = String.format("<%s>: %s", msg.getUsername(), msg.getMessage());
-        Platform.runLater(() -> _listView.getItems().add(message));
+        Platform.runLater(() -> {
+            if(!_primaryStage.isFocused()) {
+                displayMessageNotification(msg);
+            }
+            _listView.getItems().add(message);
+        });
+    }
+
+    public void displayMessageNotification(ServerMessage msg) {
+
+        TrayNotification tray = new TrayNotification();
+        tray.setTitle(msg.getUsername());
+        tray.setMessage(msg.getMessage());
+        tray.setAnimationType(AnimationType.POPUP);
+        tray.setNotificationType(NotificationType.CUSTOM);
+        tray.showAndDismiss(new Duration(100));
+
     }
 }

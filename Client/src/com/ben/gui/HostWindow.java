@@ -76,10 +76,6 @@ public class HostWindow extends Application {
     public void start(Stage stage) throws Exception {
         _stage = stage;
         _stage.setTitle("Host configuration");
-        _stage.setMinWidth(310);
-        _stage.setMinHeight(110);
-        _stage.setMaxWidth(310);
-        _stage.setMaxHeight(110);
 
         _btnConnect.setDefaultButton(true);
         _btnConnect.setOnAction(this::handleBtnConnect);
