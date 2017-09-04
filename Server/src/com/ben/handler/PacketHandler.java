@@ -95,7 +95,7 @@ public class PacketHandler {
 
         // Commands start with /
         if(packet.getMessage().startsWith("/")) {
-            handleCommand(client, packet.getMessage());
+            handleCommand(server, client, packet.getMessage());
         } else {
             ServerMessage serverMessage = new ServerMessage(client.getInfo().getUsername(), packet.getMessage());
             server.broadcastPacket(serverMessage);
@@ -107,7 +107,7 @@ public class PacketHandler {
      * @param client The client
      * @param command The command
      */
-    private static void handleCommand(Client client, String command) {
+    private static void handleCommand(Server server, Client client, String command) {
 
         if(command.equalsIgnoreCase("/help")) {
             new ServerMessage("Server", "\n" +
@@ -116,6 +116,8 @@ public class PacketHandler {
                     "2) /ping - Pings server").send(client);
         } else if(command.equalsIgnoreCase("/ping")) {
             new ServerMessage("Server", "Pong!").send(client);
+        } else if(command.equalsIgnoreCase("/list")) {
+            new ServerMessage("Server", server.getConnectedClientList()).send(client);
         } else {
             new ServerMessage("Server","Unknown command. Type \"/help\" for help.").send(client);
         }

@@ -104,4 +104,16 @@ public class Server {
         }
     }
 
+    public String getConnectedClientList() {
+        StringBuilder sb = new StringBuilder();
+        int totalClients = 1;
+        sb.append("\nClients online:\n");
+        for(Client c : getClients()){
+            if(c.getInfo().isConnected()) {
+                // 1) Username \n
+                sb.append(totalClients++).append(") ").append(c.getInfo().getUsername()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
 }
