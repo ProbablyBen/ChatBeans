@@ -2,9 +2,9 @@ package com.ben.config;
 
 public class Settings {
 
-    private boolean _desktopNotificationsEnabled;
+    private boolean _desktopNotificationsEnabled = true;
 
-    private boolean _timestampsEnabled;
+    private boolean _timestampsEnabled = true;
 
     public Settings() {
 
